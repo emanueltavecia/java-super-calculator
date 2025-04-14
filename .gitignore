@@ -1,0 +1,17 @@
+# Ignore arquivos e pastas gerados
+*.class
+*.jar
+*.war
+*.ear
+
+# Ignore arquivos de log
+*.log
+
+# Ignore arquivos de configuração locais
+*.properties
+*.env
+*.config
+
+# Ignore arquivos temporários
+*.tmp
+*.swp
