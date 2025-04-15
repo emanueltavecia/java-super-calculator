@@ -1,7 +1,7 @@
-import ui.SuperCalculator;
+import ui.UISuperCalculator;
 
 public class App {
     public static void main(String[] args) {
-        new SuperCalculator();
+        new UISuperCalculator();
     }
 }
