@@ -29,5 +29,17 @@ public class UISuperCalculator extends JFrame {
                 "v = a - (a * (b / 100))",
                 0, 0,
                 CalculatorLogic.calculateDiscount));
-    }
+
+                add(new CalculatorQuadrant(
+                    "Aplicar desconto % num valor",
+                    "Valor inicial R$ (a)",
+                    "% desconto (b)",
+                    "Resultado",
+                    null,
+                    "%",
+                    null,
+                    "v = a - (a * (b / 100))",
+                    0, 0,
+                    CalculatorLogic.calculateDiscount));
+    }    
 }
