@@ -1,6 +1,8 @@
 package ui;
 
 import javax.swing.JFrame;
+import ui.components.CalculatorQuadrant;
+import logic.CalculatorLogic;
 
 public class UISuperCalculator extends JFrame {
     public UISuperCalculator() {
@@ -8,6 +10,24 @@ public class UISuperCalculator extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
+        setLayout(null);
+
+        createComponents();
+
         setVisible(true);
+    }
+
+    private void createComponents() {
+        add(new CalculatorQuadrant(
+                "Aplicar desconto % num valor",
+                "Valor inicial R$ (a)",
+                "% desconto (b)",
+                "Resultado",
+                null,
+                "%",
+                null,
+                "v = a - (a * (b / 100))",
+                0, 0,
+                CalculatorLogic.calculateDiscount));
     }
 }
