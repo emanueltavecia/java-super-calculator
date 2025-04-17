@@ -22,6 +22,13 @@ public class CalculatorQuadrant extends JPanel {
     private JLabel resultPrefixLabel;
     private JLabel resultSuffixLabel;
 
+    private static final int QUADRANT_WIDTH = 270;
+    private static final int QUADRANT_HEIGHT = 140;
+    private static final int QUADRANT_HORIZONTAL_SPACING = 10;
+    private static final int QUADRANT_VERTICAL_SPACING = 10;
+    private static final int BORDER_PADDING_X = 30;
+    private static final int BORDER_PADDING_Y = 20;
+
     public CalculatorQuadrant(String title, String fieldALabel, String fieldBLabel, String resultLabel,
             String fieldASuffix, String fieldBSuffix, String resultSuffix,
             String formulaText, int indexX, int indexY, TripleCalculation tripleCalculation) {
@@ -36,9 +43,9 @@ public class CalculatorQuadrant extends JPanel {
                 TitledBorder.DEFAULT_POSITION,
                 new Font("Arial", Font.PLAIN, 12)));
 
-        int baseX = indexX * 280;
-        int baseY = indexY * 150;
-        setBounds(baseX, baseY, 270, 140);
+        int baseX = BORDER_PADDING_X + indexX * (QUADRANT_WIDTH + QUADRANT_HORIZONTAL_SPACING);
+        int baseY = BORDER_PADDING_Y + indexY * (QUADRANT_HEIGHT + QUADRANT_VERTICAL_SPACING);
+        setBounds(baseX, baseY, QUADRANT_WIDTH, QUADRANT_HEIGHT);
 
         fieldA = new CalculatorField(fieldALabel, fieldASuffix, 10, 20, 270, 20, Color.RED);
         add(fieldA);
