@@ -13,7 +13,7 @@ public class UISuperCalculator extends JFrame {
         setLayout(null);
 
         createComponents();
-
+        System.out.println("gitfoda");
         setVisible(true);
     }
 
