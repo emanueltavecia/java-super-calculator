@@ -2,6 +2,7 @@ package ui;
 
 import javax.swing.JFrame;
 import ui.components.CalculatorQuadrant;
+import ui.components.CalculatorRuleOfThree;
 import logic.CalculatorLogic;
 
 public class UISuperCalculator extends JFrame {
@@ -41,5 +42,16 @@ public class UISuperCalculator extends JFrame {
             "v = (a*100 / (100 - b))",
             2, 1,
             CalculatorLogic.calculateOriginalValue));
+        
+        add(new CalculatorRuleOfThree(
+            "Regra de três",
+            "a:",
+            "b:",
+            "r1:",
+            "r2:",
+            " = ",
+            "r2 = (r1 * b) / a",
+            0, 2,
+            CalculatorLogic.calculateRuleOfThree));      
     }
 }
