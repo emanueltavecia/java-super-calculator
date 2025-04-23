@@ -21,7 +21,7 @@ public class CalculatorRuleOfThree extends JPanel{
     private JLabel resultB;
     private JLabel resultR1;
     private JLabel resultR2;
-    private final QuadrupleCalculation QuadrupleCalculation;
+    private final QuadrupleCalculation quadrupleCalculation;
     private boolean updating = false;
     private JTextField secondLastEditedField = null;
     private JTextField lastEditedField = null;
@@ -34,8 +34,8 @@ public class CalculatorRuleOfThree extends JPanel{
     private static final int BORDER_PADDING_Y = 20;
 
     public CalculatorRuleOfThree(String title, String labelA, String labelB, String labelR1, String labelR2, 
-            String equalSuffix, String formulaText, int indexX, int indexY, QuadrupleCalculation QuadrupleCalculation) {
-            this.QuadrupleCalculation = QuadrupleCalculation;
+            String equalSuffix, String formulaText, int indexX, int indexY, QuadrupleCalculation quadrupleCalculation) {
+            this.quadrupleCalculation = quadrupleCalculation;
     
     setLayout(null);
     setBorder(BorderFactory.createTitledBorder(
@@ -251,7 +251,7 @@ public class CalculatorRuleOfThree extends JPanel{
 
         if (filledCount == 3) {
 
-            Result result = QuadrupleCalculation.calculate(valueA, valueB, valueR1, valueR2);
+            Result result = quadrupleCalculation.calculate(valueA, valueB, valueR1, valueR2);
             
             if (result.isSuccess()) {
                 String formatted = new DecimalFormat("#,##0.00").format(result.getValue()).replace(".", ",");
