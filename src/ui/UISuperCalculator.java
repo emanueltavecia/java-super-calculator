@@ -32,6 +32,19 @@ public class UISuperCalculator extends JFrame {
                 CalculatorLogic.calculateDiscount));
 
         add(new CalculatorQuadrant(
+                "Aplicar incremento % num valor",
+                "Valor inicial R$ (a)",
+                "% incremento (b)",
+                "Resultado",
+                null,
+                "%",
+                null,
+                "v = a + (a * (b / 100))",
+                1, 0,
+                CalculatorLogic.calculateIncrement));
+                        
+
+        add(new CalculatorQuadrant(
             "Qual era o valor original?",
             "Valor final R$ (a)",
             "% desconto (b)",
