@@ -49,6 +49,19 @@ public class CalculatorLogic {
         return Result.failure();
     };
 
+    public static TripleCalculation calculateIncrement = (initialValue, increment, finalValue) -> {
+        if (!Double.isNaN(initialValue) && !Double.isNaN(increment)) {
+            return Result.success(initialValue + (initialValue * increment / 100));
+        }
+        if (!Double.isNaN(initialValue) && !Double.isNaN(finalValue)) {
+            return Result.success((finalValue - initialValue) * 100 / initialValue);
+        }
+        if (!Double.isNaN(increment) && !Double.isNaN(finalValue)) {
+            return Result.success(finalValue / (1 + increment / 100));
+        }
+        return Result.failure();
+    };
+    
     public static TripleCalculation calculateOriginalValue = (finalValue, discount, initialValue) -> {
         if (!Double.isNaN(finalValue) && !Double.isNaN(discount)) {
             return Result.success(finalValue * 100 / (100 - discount));
