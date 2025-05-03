@@ -42,7 +42,55 @@ public class UISuperCalculator extends JFrame {
                 "v = a + (a * (b / 100))",
                 1, 0,
                 CalculatorLogic.calculateIncrement));
-                        
+
+        add(new CalculatorQuadrant(
+                "Amostragem - Quanto X% representa de Y?",
+                "Total (a)",
+                "Porcentagem (b)",
+                "Corresponde a",
+                null,
+                "%",
+                null,
+                "v = (a * b) / 100",
+                2, 0,
+                CalculatorLogic.calculatePercentageOfTotal));
+
+        add(new CalculatorQuadrant(
+                "Amostragem 2 - Quanto X representa de Y?",
+                "Total (a)",
+                "Parte (b)",
+                "Corresponde a %",
+                null,
+                null,
+                "%",
+                "v = (b * 100) / a",
+                3, 0,
+                CalculatorLogic.calculatePortionOfTotal));
+            
+        add(new CalculatorQuadrant(
+                "Valor era A e paguei B, qual foi o desconto %?",
+                "Valor original (a)",
+                "Valor c/desconto (b)",
+                "% desconto",
+                null,
+                null,
+                "%",
+                "v = ((a - b) / a) * 100",
+                0, 1,
+                CalculatorLogic.calculatePercentageDiscountFromTwoValues));
+            
+
+        add(new CalculatorQuadrant(
+                "Variação Delta [%] - diferença % entre valores",
+              "Valor inicial (a)",
+              "Valor final (b)",
+               "Diferença %",
+               null,
+                "",
+                  "%",
+               "v = ((b - a) / a) * 100",
+              1, 1,
+              CalculatorLogic.calculateDeltaPercentage));                        
 
         add(new CalculatorQuadrant(
             "Qual era o valor original?",

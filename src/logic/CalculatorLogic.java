@@ -61,6 +61,59 @@ public class CalculatorLogic {
         }
         return Result.failure();
     };
+
+    public static TripleCalculation calculatePercentageOfTotal = (total, percentage, result) -> {
+        if (!Double.isNaN(total) && !Double.isNaN(percentage)) {
+            return Result.success((total * percentage) / 100);
+        }
+        if (!Double.isNaN(total) && !Double.isNaN(result)) {
+            return Result.success((result / total) * 100);
+        }
+        if (!Double.isNaN(percentage) && !Double.isNaN(result)) {
+            return Result.success((result * 100) / percentage);
+        }
+        return Result.failure();
+    };
+
+    public static TripleCalculation calculatePortionOfTotal = (total, portion, result) -> {
+        if (!Double.isNaN(total) && !Double.isNaN(portion)) {
+            return Result.success((portion * 100) / total);
+        }
+        if (!Double.isNaN(total) && !Double.isNaN(result)) {
+            return Result.success((result * total) / 100);
+        }
+        if (!Double.isNaN(portion) && !Double.isNaN(result)) {
+            return Result.success((result * 100) / portion);
+        }
+        return Result.failure();
+    };
+    
+    public static TripleCalculation calculatePercentageDiscountFromTwoValues = (originalValue, paidValue, result) -> {
+        if (!Double.isNaN(originalValue) && !Double.isNaN(paidValue)) {
+            return Result.success(((originalValue - paidValue) / originalValue) * 100);
+        }
+        if (!Double.isNaN(originalValue) && !Double.isNaN(result)) {
+            return Result.success(originalValue - (result * originalValue / 100));
+        }
+        if (!Double.isNaN(paidValue) && !Double.isNaN(result)) {
+            return Result.success(paidValue / (1 - result / 100));
+        }
+        return Result.failure();
+    };
+    
+
+    public static TripleCalculation calculateDeltaPercentage = (initialValue, finalValue, resultValue) -> {
+        if (!Double.isNaN(initialValue) && !Double.isNaN(finalValue)) {
+            return Result.success(((finalValue - initialValue) / initialValue) * 100);
+        }
+        if (!Double.isNaN(initialValue) && !Double.isNaN(resultValue)) {
+            return Result.success(initialValue * (1 + resultValue / 100));
+        }
+        if (!Double.isNaN(finalValue) && !Double.isNaN(resultValue)) {
+            return Result.success(finalValue / (1 + resultValue / 100));
+        }
+        return Result.failure();
+    };
     
     public static TripleCalculation calculateOriginalValue = (finalValue, discount, initialValue) -> {
         if (!Double.isNaN(finalValue) && !Double.isNaN(discount)) {
