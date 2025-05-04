@@ -135,7 +135,9 @@ public class CalculatorRuleOfThree extends JPanel{
         @Override
         public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
                 throws BadLocationException {
-            if (isValidInput(string)) {
+            if (string == null)
+                return;
+            if (isValidInput(fb.getDocument().getText(0, fb.getDocument().getLength()) + string)) {
                 super.insertString(fb, offset, string, attr);
             }
         }
@@ -143,13 +145,17 @@ public class CalculatorRuleOfThree extends JPanel{
         @Override
         public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
                 throws BadLocationException {
-            if (isValidInput(text)) {
+            if (text == null)
+                return;
+            String newText = fb.getDocument().getText(0, fb.getDocument().getLength());
+            newText = newText.substring(0, offset) + text + newText.substring(offset + length);
+            if (isValidInput(newText)) {
                 super.replace(fb, offset, length, text, attrs);
             }
         }
 
         private boolean isValidInput(String text) {
-            return text.matches("[0-9,]*");
+            return text.matches("^-?\\d*,?\\d*$") || text.isEmpty();
         }
     }
 
