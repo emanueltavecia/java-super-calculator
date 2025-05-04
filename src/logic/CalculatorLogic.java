@@ -28,118 +28,108 @@ public class CalculatorLogic {
     }
 
     @FunctionalInterface
-    public interface TripleCalculation {
-        Result calculate(double a, double b, double result);
+    public interface CalculationFunction {
+        Result calculate(double a, double b);
     }
 
     public interface QuadrupleCalculation {
         Result calculate(double a, double b, double R1, double R2);
     }
 
-    public static TripleCalculation calculateDiscount = (initialValue, discount, finalValue) -> {
+    public static CalculationFunction calculateDiscount = (initialValue, discount) -> {
         if (!Double.isNaN(initialValue) && !Double.isNaN(discount)) {
-            return Result.success(initialValue - (initialValue * discount / 100));
-        }
-        if (!Double.isNaN(initialValue) && !Double.isNaN(finalValue)) {
-            return Result.success((1 - finalValue / initialValue) * 100);
-        }
-        if (!Double.isNaN(discount) && !Double.isNaN(finalValue)) {
-            return Result.success(finalValue / (1 - discount / 100));
+            double result = initialValue - (initialValue * discount / 100);
+            if (!Double.isNaN(result)) {
+                return Result.success(result);
+            }
         }
         return Result.failure();
     };
 
-    public static TripleCalculation calculateIncrement = (initialValue, increment, finalValue) -> {
+    public static CalculationFunction calculateIncrement = (initialValue, increment) -> {
         if (!Double.isNaN(initialValue) && !Double.isNaN(increment)) {
-            return Result.success(initialValue + (initialValue * increment / 100));
-        }
-        if (!Double.isNaN(initialValue) && !Double.isNaN(finalValue)) {
-            return Result.success((finalValue - initialValue) * 100 / initialValue);
-        }
-        if (!Double.isNaN(increment) && !Double.isNaN(finalValue)) {
-            return Result.success(finalValue / (1 + increment / 100));
+            double result = initialValue + (initialValue * increment / 100);
+            if (!Double.isNaN(result)) {
+                return Result.success(result);
+            }
         }
         return Result.failure();
     };
 
-    public static TripleCalculation calculatePercentageOfTotal = (total, percentage, result) -> {
+    public static CalculationFunction calculatePercentageOfTotal = (total, percentage) -> {
         if (!Double.isNaN(total) && !Double.isNaN(percentage)) {
-            return Result.success((total * percentage) / 100);
-        }
-        if (!Double.isNaN(total) && !Double.isNaN(result)) {
-            return Result.success((result / total) * 100);
-        }
-        if (!Double.isNaN(percentage) && !Double.isNaN(result)) {
-            return Result.success((result * 100) / percentage);
+            double result = (total * percentage) / 100;
+            if (!Double.isNaN(result)) {
+                return Result.success(result);
+            }
         }
         return Result.failure();
     };
 
-    public static TripleCalculation calculatePortionOfTotal = (total, portion, result) -> {
+    public static CalculationFunction calculatePortionOfTotal = (total, portion) -> {
         if (!Double.isNaN(total) && !Double.isNaN(portion)) {
-            return Result.success((portion * 100) / total);
-        }
-        if (!Double.isNaN(total) && !Double.isNaN(result)) {
-            return Result.success((result * total) / 100);
-        }
-        if (!Double.isNaN(portion) && !Double.isNaN(result)) {
-            return Result.success((result * 100) / portion);
+            double result = (portion * 100) / total;
+            if (!Double.isNaN(result)) {
+                return Result.success(result);
+            }
         }
         return Result.failure();
     };
-    
-    public static TripleCalculation calculatePercentageDiscountFromTwoValues = (originalValue, paidValue, result) -> {
-        if (!Double.isNaN(originalValue) && !Double.isNaN(paidValue)) {
-            return Result.success(((originalValue - paidValue) / originalValue) * 100);
-        }
-        if (!Double.isNaN(originalValue) && !Double.isNaN(result)) {
-            return Result.success(originalValue - (result * originalValue / 100));
-        }
-        if (!Double.isNaN(paidValue) && !Double.isNaN(result)) {
-            return Result.success(paidValue / (1 - result / 100));
-        }
-        return Result.failure();
-    };
-    
 
-    public static TripleCalculation calculateDeltaPercentage = (initialValue, finalValue, resultValue) -> {
-        if (!Double.isNaN(initialValue) && !Double.isNaN(finalValue)) {
-            return Result.success(((finalValue - initialValue) / initialValue) * 100);
-        }
-        if (!Double.isNaN(initialValue) && !Double.isNaN(resultValue)) {
-            return Result.success(initialValue * (1 + resultValue / 100));
-        }
-        if (!Double.isNaN(finalValue) && !Double.isNaN(resultValue)) {
-            return Result.success(finalValue / (1 + resultValue / 100));
+    public static CalculationFunction calculatePercentageDiscountFromTwoValues = (originalValue, paidValue) -> {
+        if (!Double.isNaN(originalValue) && !Double.isNaN(paidValue)) {
+            double result = ((originalValue - paidValue) / originalValue) * 100;
+            if (!Double.isNaN(result)) {
+                return Result.success(result);
+            }
         }
         return Result.failure();
     };
-    
-    public static TripleCalculation calculateOriginalValue = (finalValue, discount, initialValue) -> {
+
+    public static CalculationFunction calculateDeltaPercentage = (initialValue, finalValue) -> {
+        if (!Double.isNaN(initialValue) && !Double.isNaN(finalValue)) {
+            double result = ((finalValue - initialValue) / initialValue) * 100;
+            if (!Double.isNaN(result)) {
+                return Result.success(result);
+            }
+        }
+        return Result.failure();
+    };
+
+    public static CalculationFunction calculateOriginalValue = (finalValue, discount) -> {
         if (!Double.isNaN(finalValue) && !Double.isNaN(discount)) {
-            return Result.success(finalValue * 100 / (100 - discount));
-        }
-        if (!Double.isNaN(finalValue) && !Double.isNaN(initialValue)) {
-            return Result.success(100 - ((finalValue * 100) / initialValue));
-        }
-        if (!Double.isNaN(discount) && !Double.isNaN(initialValue)) {
-            return Result.success(initialValue * ((100 - discount) / 100));
+            double result = finalValue * 100 / (100 - discount);
+            if (!Double.isNaN(result)) {
+                return Result.success(result);
+            }
         }
         return Result.failure();
     };
 
     public static QuadrupleCalculation calculateRuleOfThree = (valueA, valueB, valueR1, valueR2) -> {
         if (!Double.isNaN(valueA) && !Double.isNaN(valueB) && !Double.isNaN(valueR1)) {
-            return Result.success((valueR1 * valueB) / valueA);
+            double result = (valueR1 * valueB) / valueA;
+            if (!Double.isNaN(result)) {
+                return Result.success(result);
+            }
         }
         if (!Double.isNaN(valueA) && !Double.isNaN(valueB) && !Double.isNaN(valueR2)) {
-            return Result.success((valueR2 * valueA) / valueB);
+            double result = (valueR2 * valueA) / valueB;
+            if (!Double.isNaN(result)) {
+                return Result.success(result);
+            }
         }
         if (!Double.isNaN(valueA) && !Double.isNaN(valueR1) && !Double.isNaN(valueR2)) {
-            return Result.success((valueR2 * valueA) / valueR1);
+            double result = (valueR2 * valueA) / valueR1;
+            if (!Double.isNaN(result)) {
+                return Result.success(result);
+            }
         }
         if (!Double.isNaN(valueB) && !Double.isNaN(valueR1) && !Double.isNaN(valueR2)) {
-            return Result.success((valueR1 * valueB) / valueR2);
+            double result = (valueR1 * valueB) / valueR2;
+            if (!Double.isNaN(result)) {
+                return Result.success(result);
+            }
         }
         return Result.failure();
     };
