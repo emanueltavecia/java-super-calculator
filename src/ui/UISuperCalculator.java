@@ -3,6 +3,7 @@ package ui;
 import javax.swing.JFrame;
 import ui.components.CalculatorQuadrant;
 import ui.components.CalculatorRuleOfThree;
+import ui.components.PasswordGeneratorQuadrant;
 import logic.CalculatorLogic;
 
 public class UISuperCalculator extends JFrame {
@@ -113,5 +114,7 @@ public class UISuperCalculator extends JFrame {
                 "r2 = (r1 * b) / a",
                 0, 2,
                 CalculatorLogic.calculateRuleOfThree));
+
+        add(new PasswordGeneratorQuadrant());
     }
 }

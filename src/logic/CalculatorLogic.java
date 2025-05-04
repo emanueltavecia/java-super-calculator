@@ -133,4 +133,46 @@ public class CalculatorLogic {
         }
         return Result.failure();
     };
+
+    public static String generatePassword(int length, boolean useUppercase, boolean useLowercase, boolean useNumbers,
+            boolean useSymbols) {
+        String upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lower = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String symbols = "!@#$%^&*()-_=+[]{};:,.<>?/|";
+        StringBuilder pool = new StringBuilder();
+        if (useUppercase)
+            pool.append(upper);
+        if (useLowercase)
+            pool.append(lower);
+        if (useNumbers)
+            pool.append(numbers);
+        if (useSymbols)
+            pool.append(symbols);
+        if (pool.length() == 0 || length <= 0)
+            return "";
+        java.util.Random rand = new java.util.Random();
+        StringBuilder password = new StringBuilder();
+
+        if (useUppercase)
+            password.append(upper.charAt(rand.nextInt(upper.length())));
+        if (useLowercase)
+            password.append(lower.charAt(rand.nextInt(lower.length())));
+        if (useNumbers)
+            password.append(numbers.charAt(rand.nextInt(numbers.length())));
+        if (useSymbols)
+            password.append(symbols.charAt(rand.nextInt(symbols.length())));
+        for (int i = password.length(); i < length; i++) {
+            password.append(pool.charAt(rand.nextInt(pool.length())));
+        }
+
+        char[] pwdArr = password.toString().toCharArray();
+        for (int i = pwdArr.length - 1; i > 0; i--) {
+            int j = rand.nextInt(i + 1);
+            char temp = pwdArr[i];
+            pwdArr[i] = pwdArr[j];
+            pwdArr[j] = temp;
+        }
+        return new String(pwdArr);
+    }
 }
