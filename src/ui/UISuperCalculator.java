@@ -1,8 +1,11 @@
 package ui;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import ui.components.CalculatorQuadrant;
 import ui.components.CalculatorRuleOfThree;
+import ui.components.PasswordGeneratorQuadrant;
 import logic.CalculatorLogic;
 
 public class UISuperCalculator extends JFrame {
@@ -114,5 +117,36 @@ public class UISuperCalculator extends JFrame {
             "r2 = (r1 * b) / a",
             0, 2,
             CalculatorLogic.calculateRuleOfThree));      
+
+             
+        PasswordGeneratorQuadrant passwordGen = new PasswordGeneratorQuadrant();
+        passwordGen.setGenerateAction(e -> {
+            boolean uc = passwordGen.isUppercaseSelected();
+            boolean lc = passwordGen.isLowercaseSelected();
+            boolean num = passwordGen.isNumbersSelected();
+            boolean sym = passwordGen.isSymbolsSelected();
+            int length = passwordGen.getPasswordLength();
+
+            int selectedCount = 0;
+            if (uc) selectedCount++;
+            if (lc) selectedCount++;
+            if (num) selectedCount++;
+            if (sym) selectedCount++;
+
+            if (selectedCount == 0) {
+                JOptionPane.showMessageDialog(this, "Selecione pelo menos uma opção de caractere.");
+                return;
+            }
+
+            if (length < selectedCount) {
+                JOptionPane.showMessageDialog(this, "O tamanho da senha deve ser maior ou igual ao número de opções selecionadas.");
+                return;
+            }
+
+            String password = CalculatorLogic.generatePassword(uc, lc, num, sym, length);
+            passwordGen.setPassword(password);
+        });
+
+        add(passwordGen);
     }
 }
