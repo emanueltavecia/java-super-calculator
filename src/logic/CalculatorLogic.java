@@ -1,5 +1,7 @@
 package logic;
 
+import java.security.SecureRandom;
+
 public class CalculatorLogic {
     public static class Result {
         private final double value;
@@ -133,4 +135,49 @@ public class CalculatorLogic {
         }
         return Result.failure();
     };
+
+  public static String generatePassword(boolean upper, boolean lower, boolean number, boolean symbol, int length) {
+        String upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerChars = "abcdefghijklmnopqrstuvwxyz";
+        String numberChars = "0123456789";
+        String symbolChars = "!@#$%^&*()-_=+[]{}|;:',.<>?/";
+
+        StringBuilder allChars = new StringBuilder();
+        SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder();
+
+        if (upper) {
+            allChars.append(upperChars);
+            password.append(upperChars.charAt(random.nextInt(upperChars.length())));
+        }
+        if (lower) {
+            allChars.append(lowerChars);
+            password.append(lowerChars.charAt(random.nextInt(lowerChars.length())));
+        }
+        if (number) {
+            allChars.append(numberChars);
+            password.append(numberChars.charAt(random.nextInt(numberChars.length())));
+        }
+        if (symbol) {
+            allChars.append(symbolChars);
+            password.append(symbolChars.charAt(random.nextInt(symbolChars.length())));
+        }
+
+        while (password.length() < length) {
+            password.append(allChars.charAt(random.nextInt(allChars.length())));
+        }
+
+        return shuffleString(password.toString(), random);
+    }
+
+    private static String shuffleString(String input, SecureRandom random) {
+        char[] chars = input.toCharArray();
+        for (int i = chars.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            char temp = chars[i];
+            chars[i] = chars[j];
+            chars[j] = temp;
+        }
+        return new String(chars);
+    }
 }
