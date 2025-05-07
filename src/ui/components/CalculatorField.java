@@ -11,7 +11,6 @@ public class CalculatorField extends JPanel {
     private JLabel prefixLabel;
     private JTextField inputField;
     private JLabel suffixLabel;
-    private JLabel resultLabel;
 
     public CalculatorField(String labelText, String suffix, int x, int y, int width, int height, Color highlightColor) {
         setLayout(null);
@@ -36,12 +35,6 @@ public class CalculatorField extends JPanel {
             suffixLabel.setForeground(highlightColor);
             add(suffixLabel);
         }
-
-        resultLabel = new JLabel();
-        resultLabel.setBounds(125, 0, 90, height);
-        resultLabel.setVisible(false);
-        resultLabel.setForeground(highlightColor);
-        add(resultLabel);
 
         configureNumericFilter();
     }
@@ -88,15 +81,6 @@ public class CalculatorField extends JPanel {
 
     public void setText(String text) {
         inputField.setText(text);
-    }
-
-    public void setResultVisibility(boolean showResult, String resultText) {
-        inputField.setVisible(!showResult);
-        resultLabel.setVisible(showResult);
-
-        if (showResult && resultText != null) {
-            resultLabel.setText(resultText);
-        }
     }
 
     public boolean isInputEmpty() {

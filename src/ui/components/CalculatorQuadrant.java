@@ -6,21 +6,21 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.text.DecimalFormat;
-import logic.CalculatorLogic.TripleCalculation;
+import logic.CalculatorLogic.CalculationFunction;
 import logic.CalculatorLogic.Result;
 
 public class CalculatorQuadrant extends JPanel {
     private CalculatorField fieldA;
     private CalculatorField fieldB;
-    private CalculatorField resultField;
     private JPanel resultPanel;
-    private final TripleCalculation tripleCalculation;
+    private final CalculationFunction calculationFunction;
     private boolean updating = false;
     private JTextField secondLastEditedField = null;
     private JTextField lastEditedField = null;
     private final String resultLabelText;
     private JLabel resultPrefixLabel;
     private JLabel resultSuffixLabel;
+    private JLabel resultLabel;
 
     private static final int QUADRANT_WIDTH = 270;
     private static final int QUADRANT_HEIGHT = 140;
@@ -31,8 +31,8 @@ public class CalculatorQuadrant extends JPanel {
 
     public CalculatorQuadrant(String title, String fieldALabel, String fieldBLabel, String resultLabel,
             String fieldASuffix, String fieldBSuffix, String resultSuffix,
-            String formulaText, int indexX, int indexY, TripleCalculation tripleCalculation) {
-        this.tripleCalculation = tripleCalculation;
+            String formulaText, int indexX, int indexY, CalculationFunction calculationFunction) {
+        this.calculationFunction = calculationFunction;
         this.resultLabelText = resultLabel;
 
         setLayout(null);
@@ -73,8 +73,11 @@ public class CalculatorQuadrant extends JPanel {
             resultPanel.add(resultSuffixLabel);
         }
 
-        resultField = new CalculatorField("", "", 0, 0, 270, 20, new Color(64, 64, 64));
-        resultPanel.add(resultField);
+        this.resultLabel = new JLabel("");
+        this.resultLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        this.resultLabel.setBounds(125, 0, 95, 20);
+        this.resultLabel.setForeground(new Color(0, 0, 0));
+        resultPanel.add(this.resultLabel);
 
         JLabel formulaLabel = new JLabel(formulaText);
         formulaLabel.setFont(new Font("Courier New", Font.PLAIN, 12));
@@ -89,8 +92,6 @@ public class CalculatorQuadrant extends JPanel {
             return fieldA.getInputField();
         if (doc == fieldB.getInputField().getDocument())
             return fieldB.getInputField();
-        if (doc == resultField.getInputField().getDocument())
-            return resultField.getInputField();
         return null;
     }
 
@@ -129,7 +130,6 @@ public class CalculatorQuadrant extends JPanel {
 
         fieldA.addDocumentListener(listener);
         fieldB.addDocumentListener(listener);
-        resultField.addDocumentListener(listener);
     }
 
     private void updateEditedFields(JTextField field) {
@@ -143,15 +143,12 @@ public class CalculatorQuadrant extends JPanel {
     private void checkResultVisibility() {
         boolean fieldAFilled = !fieldA.isInputEmpty();
         boolean fieldBFilled = !fieldB.isInputEmpty();
-        boolean resultFieldFilled = !resultField.isInputEmpty();
 
-        boolean shouldCalculate = (fieldAFilled && fieldBFilled && !resultFieldFilled) ||
-                (fieldAFilled && !fieldBFilled && resultFieldFilled) ||
-                (!fieldAFilled && fieldBFilled && resultFieldFilled);
+        boolean shouldCalculate = fieldAFilled && fieldBFilled;
         if (!shouldCalculate) {
-            fieldA.setResultVisibility(false, null);
-            fieldB.setResultVisibility(false, null);
-            resultField.setResultVisibility(false, null);
+            resultLabel.setVisible(false);
+        } else {
+            resultLabel.setVisible(true);
         }
 
         resultPrefixLabel.setVisible(true);
@@ -179,49 +176,33 @@ public class CalculatorQuadrant extends JPanel {
         try {
             double valueA = parseNumber(fieldA.getText());
             double valueB = parseNumber(fieldB.getText());
-            double resultValue = parseNumber(resultField.getText());
 
             boolean fieldAFilled = !Double.isNaN(valueA);
             boolean fieldBFilled = !Double.isNaN(valueB);
-            boolean resultFieldFilled = !Double.isNaN(resultValue);
 
-            String resultLabelAText = "";
-            String resultLabelBText = "";
-            String resultLabelCText = "";
-
-            if ((fieldAFilled && fieldBFilled && !resultFieldFilled) ||
-                    (fieldAFilled && !fieldBFilled && resultFieldFilled) ||
-                    (!fieldAFilled && fieldBFilled && resultFieldFilled)) {
-
-                Result result = tripleCalculation.calculate(valueA, valueB, resultValue);
-                if (result.isSuccess()) {
-                    DecimalFormat df = new DecimalFormat("#,##0.00");
-                    df.setDecimalSeparatorAlwaysShown(true);
-                    String formattedValue = df.format(result.getValue()).replace(".", ",");
-
-                    if (!fieldAFilled) {
-                        resultLabelAText = formattedValue;
-                    } else if (!fieldBFilled) {
-                        resultLabelBText = formattedValue;
-                    } else {
-                        resultLabelCText = formattedValue;
-                    }
-                }
+            if (!fieldAFilled || !fieldBFilled) {
+                resultLabel.setText("");
+                resultLabel.setVisible(false);
+                return;
             }
 
-            if (!fieldAFilled) {
-                fieldA.setResultVisibility(true, resultLabelAText);
+            Result result = calculationFunction.calculate(valueA, valueB);
+            if (result.isSuccess()) {
+                DecimalFormat df = new DecimalFormat("#,##0.00");
+                df.setDecimalSeparatorAlwaysShown(true);
+                String formattedValue = df.format(result.getValue()).replace(".", ",");
+
+                resultLabel.setText(formattedValue);
+                resultLabel.setVisible(true);
+            } else {
+                resultLabel.setText("");
+                resultLabel.setVisible(false);
             }
 
-            if (!fieldBFilled) {
-                fieldB.setResultVisibility(true, resultLabelBText);
+            resultPrefixLabel.setVisible(true);
+            if (resultSuffixLabel != null) {
+                resultSuffixLabel.setVisible(true);
             }
-
-            if (!resultFieldFilled) {
-                resultField.setResultVisibility(true, resultLabelCText);
-            }
-
-            checkResultVisibility();
         } finally {
             updating = false;
         }
