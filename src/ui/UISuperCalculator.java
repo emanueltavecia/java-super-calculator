@@ -69,7 +69,7 @@ public class UISuperCalculator extends JFrame {
                 "v = (b * 100) / a",
                 3, 0,
                 CalculatorLogic.calculatePortionOfTotal));
-            
+
         add(new CalculatorQuadrant(
                 "Valor era A e paguei B, qual foi o desconto %?",
                 "Valor original (a)",
@@ -81,42 +81,41 @@ public class UISuperCalculator extends JFrame {
                 "v = ((a - b) / a) * 100",
                 0, 1,
                 CalculatorLogic.calculatePercentageDiscountFromTwoValues));
-            
 
         add(new CalculatorQuadrant(
                 "Variação Delta [%] - diferença % entre valores",
-              "Valor inicial (a)",
-              "Valor final (b)",
-               "Diferença %",
-               null,
+                "Valor inicial (a)",
+                "Valor final (b)",
+                "Diferença %",
+                null,
                 "",
-                  "%",
-               "v = ((b - a) / a) * 100",
-              1, 1,
-              CalculatorLogic.calculateDeltaPercentage));                        
+                "%",
+                "v = ((b - a) / a) * 100",
+                1, 1,
+                CalculatorLogic.calculateDeltaPercentage));
 
         add(new CalculatorQuadrant(
-            "Qual era o valor original?",
-            "Valor final R$ (a)",
-            "% desconto (b)",
-            "Valor inicial",
-            null,
-            "%",
-            null,
-            "v = (a*100 / (100 - b))",
-            2, 1,
-            CalculatorLogic.calculateOriginalValue));
-        
+                "Qual era o valor original?",
+                "Valor final R$ (a)",
+                "% desconto (b)",
+                "Valor inicial",
+                null,
+                "%",
+                null,
+                "v = (a*100 / (100 - b))",
+                2, 1,
+                CalculatorLogic.calculateOriginalValue));
+
         add(new CalculatorRuleOfThree(
-            "Regra de três",
-            "a:",
-            "b:",
-            "r1:",
-            "r2:",
-            " = ",
-            "r2 = (r1 * b) / a",
-            0, 2,
-            CalculatorLogic.calculateRuleOfThree));      
+                "Regra de três",
+                "a:",
+                "b:",
+                "r1:",
+                "r2:",
+                " = ",
+                "r2 = (r1 * b) / a",
+                0, 2,
+                CalculatorLogic.calculateRuleOfThree));
 
              
         PasswordGeneratorQuadrant passwordGen = new PasswordGeneratorQuadrant();
