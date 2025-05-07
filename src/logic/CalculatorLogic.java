@@ -136,7 +136,32 @@ public class CalculatorLogic {
         return Result.failure();
     };
 
-  public static String generatePassword(boolean upper, boolean lower, boolean number, boolean symbol, int length) {
+    public static String validateSelectedPasswordOptions(boolean upper, boolean lower, boolean number, boolean symbol,
+            int length) {
+        int selectedCount = 0;
+        if (upper)
+            selectedCount++;
+        if (lower)
+            selectedCount++;
+        if (number)
+            selectedCount++;
+        if (symbol)
+            selectedCount++;
+
+        if (selectedCount == 0) {
+
+            return "Selecione pelo menos uma opção de caractere.";
+        }
+
+        if (length < selectedCount) {
+
+            return "O tamanho da senha deve ser maior ou igual ao número de opções selecionadas.";
+        }
+
+        return "";
+    }
+
+    public static String generatePassword(boolean upper, boolean lower, boolean number, boolean symbol, int length) {
         String upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerChars = "abcdefghijklmnopqrstuvwxyz";
         String numberChars = "0123456789";

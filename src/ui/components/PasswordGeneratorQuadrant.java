@@ -72,24 +72,14 @@ public class PasswordGeneratorQuadrant extends JPanel {
             boolean sym = this.isSymbolsSelected();
             int length = this.getPasswordLength();
 
-            int selectedCount = 0;
-            if (uc)
-                selectedCount++;
-            if (lc)
-                selectedCount++;
-            if (num)
-                selectedCount++;
-            if (sym)
-                selectedCount++;
+            String errorMessage = CalculatorLogic.validateSelectedPasswordOptions(uc,
+                    lc,
+                    num,
+                    sym,
+                    length);
 
-            if (selectedCount == 0) {
-                JOptionPane.showMessageDialog(this, "Selecione pelo menos uma opção de caractere.");
-                return;
-            }
-
-            if (length < selectedCount) {
-                JOptionPane.showMessageDialog(this,
-                        "O tamanho da senha deve ser maior ou igual ao número de opções selecionadas.");
+            if (!errorMessage.isEmpty()) {
+                JOptionPane.showMessageDialog(this, errorMessage);
                 return;
             }
 
