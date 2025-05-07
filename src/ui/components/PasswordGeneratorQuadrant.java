@@ -1,8 +1,12 @@
 package ui.components;
 
 import javax.swing.*;
-import java.awt.*;
+import javax.swing.border.TitledBorder;
+
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 
 public class PasswordGeneratorQuadrant extends JPanel {
     private JCheckBox uppercaseCheck;
@@ -10,24 +14,40 @@ public class PasswordGeneratorQuadrant extends JPanel {
     private JCheckBox numbersCheck;
     private JCheckBox symbolsCheck;
     private JSpinner lengthSpinner;
+    private SpinnerNumberModel spinnerModel;
     private JTextField passwordField;
     private JButton generateButton;
 
     public PasswordGeneratorQuadrant() {
         setLayout(null);
-        setBounds(340, 320, 300, 200); // posicione conforme sua grid
-        setBorder(BorderFactory.createTitledBorder("Gerador de Senhas"));
+        setBounds(340, 320, 300, 180);
+        setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(160, 160, 160)),
+                "Gerador de Senhas",
+                TitledBorder.DEFAULT_JUSTIFICATION,
+                TitledBorder.DEFAULT_POSITION,
+                new Font("Arial", Font.PLAIN, 12)));
 
         uppercaseCheck = new JCheckBox("Maiúsculas");
+        uppercaseCheck.setSelected(true);
         lowercaseCheck = new JCheckBox("Minúsculas");
+        lowercaseCheck.setSelected(true);
         numbersCheck = new JCheckBox("Números");
+        numbersCheck.setSelected(true);
         symbolsCheck = new JCheckBox("Símbolos");
+        symbolsCheck.setSelected(true);
 
         uppercaseCheck.setBounds(25, 30, 120, 20);
         lowercaseCheck.setBounds(155, 30, 120, 20);
         numbersCheck.setBounds(25, 60, 120, 20);
         symbolsCheck.setBounds(155, 60, 120, 20);
 
+        ItemListener checkboxListener = e -> updateMinimumLength();
+        uppercaseCheck.addItemListener(checkboxListener);
+        lowercaseCheck.addItemListener(checkboxListener);
+        numbersCheck.addItemListener(checkboxListener);
+        symbolsCheck.addItemListener(checkboxListener);
+        
         add(uppercaseCheck);
         add(lowercaseCheck);
         add(numbersCheck);
@@ -37,7 +57,8 @@ public class PasswordGeneratorQuadrant extends JPanel {
         lengthLabel.setBounds(20, 90, 80, 20);
         add(lengthLabel);
 
-        lengthSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
+        spinnerModel = new SpinnerNumberModel(4, 4, 100, 1);
+        lengthSpinner = new JSpinner(spinnerModel);
         lengthSpinner.setBounds(100, 90, 50, 20);
         add(lengthSpinner);
 
@@ -48,7 +69,30 @@ public class PasswordGeneratorQuadrant extends JPanel {
         passwordField = new JTextField();
         passwordField.setBounds(20, 130, 250, 25);
         passwordField.setEditable(false);
+        passwordField.setBackground(new Color(255, 255, 255));
+        passwordField.setBorder(BorderFactory.createLineBorder(new Color(160, 160, 160)));
         add(passwordField);
+    }
+
+    private void updateMinimumLength() {
+        int selectedCount = getSelectedCheckboxCount();
+
+        int minLength = Math.max(1, selectedCount);
+        
+        spinnerModel.setMinimum(minLength);
+        
+        if ((int)lengthSpinner.getValue() < minLength) {
+            lengthSpinner.setValue(minLength);
+        }
+    }
+    
+    private int getSelectedCheckboxCount() {
+        int count = 0;
+        if (uppercaseCheck.isSelected()) count++;
+        if (lowercaseCheck.isSelected()) count++;
+        if (numbersCheck.isSelected()) count++;
+        if (symbolsCheck.isSelected()) count++;
+        return count;
     }
 
     public void setGenerateAction(ActionListener listener) {
