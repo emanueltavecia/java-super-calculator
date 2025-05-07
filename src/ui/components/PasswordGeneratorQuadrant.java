@@ -15,7 +15,7 @@ public class PasswordGeneratorQuadrant extends JPanel {
 
     public PasswordGeneratorQuadrant() {
         setLayout(null);
-        setBounds(340, 320, 300, 220); // posicione conforme sua grid
+        setBounds(340, 320, 300, 200); // posicione conforme sua grid
         setBorder(BorderFactory.createTitledBorder("Gerador de Senhas"));
 
         uppercaseCheck = new JCheckBox("Maiúsculas");
@@ -23,10 +23,10 @@ public class PasswordGeneratorQuadrant extends JPanel {
         numbersCheck = new JCheckBox("Números");
         symbolsCheck = new JCheckBox("Símbolos");
 
-        uppercaseCheck.setBounds(20, 30, 120, 20);
-        lowercaseCheck.setBounds(150, 30, 120, 20);
-        numbersCheck.setBounds(20, 60, 120, 20);
-        symbolsCheck.setBounds(150, 60, 120, 20);
+        uppercaseCheck.setBounds(25, 30, 120, 20);
+        lowercaseCheck.setBounds(155, 30, 120, 20);
+        numbersCheck.setBounds(25, 60, 120, 20);
+        symbolsCheck.setBounds(155, 60, 120, 20);
 
         add(uppercaseCheck);
         add(lowercaseCheck);
@@ -37,16 +37,16 @@ public class PasswordGeneratorQuadrant extends JPanel {
         lengthLabel.setBounds(20, 90, 80, 20);
         add(lengthLabel);
 
-        lengthSpinner = new JSpinner(new SpinnerNumberModel(8, 4, 100, 1));
+        lengthSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
         lengthSpinner.setBounds(100, 90, 50, 20);
         add(lengthSpinner);
 
-        generateButton = new JButton("Gerar Senha");
-        generateButton.setBounds(20, 120, 180, 30);
+        generateButton = new JButton("Gerar");
+        generateButton.setBounds(160, 90, 100, 30);
         add(generateButton);
 
         passwordField = new JTextField();
-        passwordField.setBounds(20, 160, 250, 25);
+        passwordField.setBounds(20, 130, 250, 25);
         passwordField.setEditable(false);
         add(passwordField);
     }
