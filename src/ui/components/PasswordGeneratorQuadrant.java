@@ -3,9 +3,10 @@ package ui.components;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import logic.CalculatorLogic;
+
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 
 public class PasswordGeneratorQuadrant extends JPanel {
@@ -47,7 +48,7 @@ public class PasswordGeneratorQuadrant extends JPanel {
         lowercaseCheck.addItemListener(checkboxListener);
         numbersCheck.addItemListener(checkboxListener);
         symbolsCheck.addItemListener(checkboxListener);
-        
+
         add(uppercaseCheck);
         add(lowercaseCheck);
         add(numbersCheck);
@@ -64,6 +65,37 @@ public class PasswordGeneratorQuadrant extends JPanel {
 
         generateButton = new JButton("Gerar");
         generateButton.setBounds(160, 90, 100, 30);
+        generateButton.addActionListener(e -> {
+            boolean uc = this.isUppercaseSelected();
+            boolean lc = this.isLowercaseSelected();
+            boolean num = this.isNumbersSelected();
+            boolean sym = this.isSymbolsSelected();
+            int length = this.getPasswordLength();
+
+            int selectedCount = 0;
+            if (uc)
+                selectedCount++;
+            if (lc)
+                selectedCount++;
+            if (num)
+                selectedCount++;
+            if (sym)
+                selectedCount++;
+
+            if (selectedCount == 0) {
+                JOptionPane.showMessageDialog(this, "Selecione pelo menos uma opção de caractere.");
+                return;
+            }
+
+            if (length < selectedCount) {
+                JOptionPane.showMessageDialog(this,
+                        "O tamanho da senha deve ser maior ou igual ao número de opções selecionadas.");
+                return;
+            }
+
+            String password = CalculatorLogic.generatePassword(uc, lc, num, sym, length);
+            this.setPassword(password);
+        });
         add(generateButton);
 
         passwordField = new JTextField();
@@ -78,25 +110,25 @@ public class PasswordGeneratorQuadrant extends JPanel {
         int selectedCount = getSelectedCheckboxCount();
 
         int minLength = Math.max(1, selectedCount);
-        
+
         spinnerModel.setMinimum(minLength);
-        
-        if ((int)lengthSpinner.getValue() < minLength) {
+
+        if ((int) lengthSpinner.getValue() < minLength) {
             lengthSpinner.setValue(minLength);
         }
     }
-    
+
     private int getSelectedCheckboxCount() {
         int count = 0;
-        if (uppercaseCheck.isSelected()) count++;
-        if (lowercaseCheck.isSelected()) count++;
-        if (numbersCheck.isSelected()) count++;
-        if (symbolsCheck.isSelected()) count++;
+        if (uppercaseCheck.isSelected())
+            count++;
+        if (lowercaseCheck.isSelected())
+            count++;
+        if (numbersCheck.isSelected())
+            count++;
+        if (symbolsCheck.isSelected())
+            count++;
         return count;
-    }
-
-    public void setGenerateAction(ActionListener listener) {
-        generateButton.addActionListener(listener);
     }
 
     public boolean isUppercaseSelected() {
