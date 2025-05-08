@@ -1,0 +1,9 @@
+- Disciplina: Programação Orientada a Objetos
+- Fase: 3
+- Turma 2
+
+- Integrantes:
+  - Emanuel Cardoso Tavecia
+  - Guilherme Conti Machado
+  - Gabriel Alves Teixeira
+  - Caio Vinícius Guimarães de Oliveira Dagostim
